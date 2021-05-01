@@ -48,7 +48,9 @@ The name of the BLAST output should look like "roseobacter.vs.bradyrhizobium.bla
 Make sure that you are in the folder "data". If not, type ```cd data```.
 
 Run Psi_Phi module1
-```perl ../scripts/scripts_for_Psi_Phi/batch.module1.pl```
+```
+perl ../scripts/scripts_for_Psi_Phi/batch.module1.pl
+```
 
 Note that there might be some warning messages but it's fine to ignore them based on my experience. I'm unsure what it means as the researcher who modifies the corresponding script has graduated (Siyao Li).
 
