@@ -31,7 +31,7 @@ ruby scripts/checkRubyPackages.rb
 
 
 # Step 1: all-against-all tblastn
-Let's first prepare the database for tblastn:
+Let's first prepare the tblastn databases for each genome:
 ```
 for i in data/*fas; do b=`basename $i`; c=${b%.fas}; makeblastdb -in $i -dbtype nucl -parse_seqids -out ./data/$c; done
 ```
@@ -49,12 +49,16 @@ Make sure that you are in the folder "data". If not, type ```cd data```.
 
 Run Psi_Phi module1
 ```perl ../scripts/scripts_for_Psi_Phi/batch.module1.pl```
+
 Note that there might be some warning messages but it's fine to ignore them based on my experience. I'm unsure what it means as the researcher who modifies the corresponding script has graduated (Siyao Li).
 
 Run Psi_Phi module2
-```perl ../scripts/scripts_for_Psi_Phi/batch.module2.pl```
-Be sure to make all input files in the same folder (or you could edit the original scripts)
-The output should be like "roseobacter_use_bradyrhizobium" where you can find the info for each pseudogene identified by PsiPhi
+```
+perl ../scripts/scripts_for_Psi_Phi/batch.module2.pl
+ruby ../scripts/scripts_for_Psi_Phi/module2.in_parallel.rb
+```
+
+Be sure to make all input files in the same folder (or you could edit the original scripts). The output should be like "roseobacter_use_bradyrhizobium" where you can find the info for each pseudogene identified by PsiPhi
 
 
 # Step 3: Summarize the result of Psi-Phi
@@ -95,4 +99,4 @@ ruby scripts/process_scripts/find_orf.rb --check_indir filtering/tblastn_result/
 ```
 for i in filtering/filter_*; do ruby scripts/process_scripts/get_final.rb -i filtering/prepare/all_pseudo.txt --include_list $i/orf_cov_80.list  --include_list $i/short_query.list --include_list $i/long_query.list > $i/all_pseudo.filtered.txt ; done
 ```
-The final result will be output in the file "filter_X/all_pseudo.filtered.txt".
+The final result will be output in the file *filter_X/all_pseudo.filtered.txt*. You may want to make a comparison between this file and the pseudogenes originally identified by Psi-Phi (*filtering/prepare/all_pseudo.txt*).
