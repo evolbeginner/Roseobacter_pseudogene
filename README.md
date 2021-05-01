@@ -52,7 +52,7 @@ The output should be like "roseobacter_use_bradyrhizobium" where you can find th
 
 # Step 3: Summarize the result of Psi-Phi
 Go back to the parent folder of data
-```cd ../```
+```cd ..```
 
 Summarize the result of Psi-Phi
 ```
@@ -76,7 +76,10 @@ for i in 5 10 20 30; do awk -v i=$i '{if($2>=i){print $1}}' single_query/ori.lis
 
 
 # Step 6: Final step
-bash cmd.sh
+```
+ruby scripts/process_scripts/find_orf.rb --check_indir filtering/tblastn_result/ -g data/ -p data/ --cpu 16 -i fildering/prepare/all_pseudo.txt --problematic_query_list filtering/single_query/5.list --outdir filtering/filter_5 --force
+```
+
 
 # Step 7: analyze results
 The final result will be output in the file "filter_XX/all_pseudo.filtered.txt".
