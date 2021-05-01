@@ -1,6 +1,6 @@
 # Roseobacter_pseudogene
 
-Here I provide some further instructions to the identification of pseudogenes in roseobacter genomes, which was originally used in our study https://www.nature.com/articles/s41396-020-00790-0.
+Here I provide some further instructions to the identification of pseudogenes in roseobacter genomes, which was originally used in our study 
 
 Chu, X., Li, S., Wang, S. et al. Gene loss through pseudogenization contributes to the ecological diversification of a generalist Roseobacter lineage. ISME J 15, 489–502 (2021). https://doi.org/10.1038/s41396-020-00790-0
 
