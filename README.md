@@ -27,8 +27,9 @@ Let's first prepare the database for tblastn:
 for i in data/*fas; do b=`basename $i`; c=${b%.fas}; makeblastdb -in $i -dbtype nucl -parse_seqids -out ./data/$c; done
 ```
 
+Enter the folder **data** and run tblastn in batch.
 ```
-cd data # enter the folder **data**
+cd data #
 ruby scripts/do_blast_in_batch.rb --seq_indir . --db_indir . --cpu 10 --nt 4
 ```
 The name of the BLAST output should look like "roseobacter.vs.bradyrhizobium.blast", if the query is roseobacteria.faa and the subject is bradyrhizobium.fas.
