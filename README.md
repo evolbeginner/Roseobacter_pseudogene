@@ -1,9 +1,9 @@
 # Roseobacter_pseudogene
 
 # Preparation
-It's strongly recommended to install ruby https://www.ruby-lang.org/en/documentation/installation/ before using the scripts. The reason is because I have prepared the scripts written in Ruby for some simple data processing and related stuff. Of cours, it is possible to write your own scripts instead of using my Ruby scripts.
+1. It's strongly recommended to install ruby https://www.ruby-lang.org/en/documentation/installation/ before using the scripts. The reason is because I have prepared the scripts written in Ruby for some simple data processing and related stuff. Of cours, it is possible to write your own scripts instead of using my Ruby scripts.
 
-After installation of Ruby, do the following in bash (**you need to go into this folder first**).
+2. After installation of Ruby, do the following in bash (**you need to go into this folder first**).
 ```
 export RUBYLIB=$RUBYLIB:$PWD/scripts/prepare_scripts/lib
 gem install bio parallel
@@ -13,6 +13,8 @@ Make sure that the installation of these packages is successfull.
 ```
 ruby scripts/checkRubyPackages.rb
 ```
+
+3. **[Optional]** If you want to do filtering (i.e., steps 3-6), make sure that bedtools (https://bedtools.readthedocs.io/en/latest/) is successfully installed and its path is added to the environment variable *PATH*. Otherwise, if you only want to perform the original Psi-Phi, this is not necessary.
 
 
 # Step 0: files
