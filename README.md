@@ -1,5 +1,9 @@
 # Roseobacter_pseudogene
 
+Here I provide some further instructions to the identification of pseudogenes in roseobacter genomes, which was originally used in our study https://www.nature.com/articles/s41396-020-00790-0.
+Chu, X., Li, S., Wang, S. et al. Gene loss through pseudogenization contributes to the ecological diversification of a generalist Roseobacter lineage. ISME J 15, 489–502 (2021). https://doi.org/10.1038/s41396-020-00790-0
+
+
 # Preparation
 1. It's strongly recommended to install ruby https://www.ruby-lang.org/en/documentation/installation/ before using the scripts. The reason is because I have prepared the scripts written in Ruby for some simple data processing and related stuff. Of cours, it is possible to write your own scripts instead of using my Ruby scripts.
 
@@ -51,7 +55,7 @@ The output should be like "roseobacter_use_bradyrhizobium" where you can find th
 
 
 # Step 3: Summarize the result of Psi-Phi
-Go back to the parent folder of data
+**Go back to the parent folder of data**
 ```cd ..```
 
 Summarize the result of Psi-Phi
@@ -67,20 +71,23 @@ ruby scripts/process_scripts/check_pseudogene_aln.rb -i filtering/prepare/all_ps
 
 # Step 5: Further filtering
 ```
-mkdir single_query
+mkdir filtering/single_query
 
 ruby -F"\t" -alne 'next if $F[0]!~/\w/; a=$F[4].split(", "); n=a.size; n ==1 and puts a[0]' filtering/prepare/all_pseudo.txt | sort|uniq -c | awk '{print $2"\t"$1}'|sort -nk 2 > filtering/single_query/ori.list
+```
 
-for i in 5 10 20 30; do awk -v i=$i '{if($2>=i){print $1}}' single_query/ori.list > single_query/$i.list; done
+We will then filter out the pseudogenes identified by an ORF that identifies say >=5 "pseudogenes" by Psi-Phi. The logic is that, if a so-called ORF identifies too many pseudogenes, then we think that it is more likely that this "ORF" is wrongly annotated or suspicious. Note that in the original paper we used an arbitrary cutoff 10, but in the example files provided here we use 5 as there are only 10 genomes.
+```
+for i in 5; do awk -v i=$i '{if($2>=i){print $1}}' filtering/single_query/ori.list > filtering/single_query/$i.list; done
 ```
 
 
 # Step 6: Final step
 ```
-ruby scripts/process_scripts/find_orf.rb --check_indir filtering/tblastn_result/ -g data/ -p data/ --cpu 16 -i fildering/prepare/all_pseudo.txt --problematic_query_list filtering/single_query/5.list --outdir filtering/filter_5 --force
+ruby scripts/process_scripts/find_orf.rb --check_indir filtering/tblastn_result/ -g data/ -p data/ --cpu 16 -i filtering/prepare/all_pseudo.txt --problematic_query_list filtering/single_query/5.list --outdir filtering/filter_5 --force
 ```
 
 
 # Step 7: analyze results
 The final result will be output in the file "filter_XX/all_pseudo.filtered.txt".
-Important: for filter_XX, XX denotes a way of filtering: if a single orf has identified two many "pseudogenes", then we think it is more likely that this orf is wrongly annotated to be too long, much longer than its actual length. So we decide to use an arbitrary cutoff: if a orf identifies say >= 10 "pseudogenes", then we don't consider any of them as pseudogenes. Because the cutoff is set arbitrary, it is suggested to use different cutoffs (5, 10, 20, etc.) and to compare the results.
+Important: for filter_XX, XX denotes a way of filtering: if a single orf has identified two many "pseudogenes", then we think it is more likely that this orf is wrongly annotated to be too long, much longer than its actual length. So we .
