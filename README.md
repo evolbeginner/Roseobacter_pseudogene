@@ -35,7 +35,7 @@ ruby scripts/do_blast_in_batch.rb --seq_indir . --db_indir . --cpu 10 --nt 4
 The name of the BLAST output should look like "roseobacter.vs.bradyrhizobium.blast", if the query is roseobacteria.faa and the subject is bradyrhizobium.fas.
 
 
-# Step 2: run Psi-Phi
+# Step 2: Run Psi-Phi
 Make sure that you are in the folder "data". If not, type ```cd data```.
 
 Run Psi_Phi module1
@@ -48,17 +48,22 @@ Be sure to make all input files in the same folder (or you could edit the origin
 The output should be like "roseobacter_use_bradyrhizobium" where you can find the info for each pseudogene identified by PsiPhi
 
 
+# Step 3: Summarize the result of Psi-Phi
+Go back to the parent folder of data
+```cd ../```
+
+Summarize the result of Psi-Phi
+```
+ruby scripts/prepare_scripts/from_pseudo_to_bed.rb --indir data/ --outdir filtering/prepare --force
+```
+Note that pseudogenes that overlap with at least 1 bp will be merged into a "larger" pseudogene in the file *filtering/prepare/all_pseudo.txt* which we will be using in subsequent filtering steps. You can change the distance cutoff of merging the pseudogenes identified by Psi-Phi by using *-d*. This is done by *bedtools count* (see https://bedtools.readthedocs.io/en/latest/content/tools/cluster.html for more details). In case you would like to merge only those with overlaps of >= 10 bp, you can set this parameter as *-10*.
 
 
-# Step 3:
-ruby scripts/prepare_scripts/from_pseudo_to_bed.rb --indir data/ --outdir prepare --force
-
-
-# Step 1: generate tblastn results
+# Step 4: Generate tblastn results
 ruby scripts/process_scripts/check_pseudogene_aln.rb -i filtering/prepare/all_pseudo.txt -g data -p data --cpu 12 --outdir tblastn_result --force
 
 
-# Step 2:
+# Step 5: 
 mkdir single_query
 
 ruby -F"\t" -alne 'next if $F[0]!~/\w/; a=$F[4].split(", "); n=a.size; n ==1 and puts a[0]' all_pseudo.txt | sort|uniq -c | awk '{print $2"\t"$1}'|sort -nk 2 > single_query/ori.list
