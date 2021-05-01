@@ -27,9 +27,9 @@ Let's first prepare the database for tblastn:
 for i in data/*fas; do b=`basename $i`; c=${b%.fas}; makeblastdb -in $i -dbtype nucl -parse_seqids -out ./data/$c; done
 ```
 
-Enter the folder **data** and run tblastn in batch.
+Enter the folder *data* and run tblastn in batch.
 ```
-cd data #
+cd data
 ruby scripts/do_blast_in_batch.rb --seq_indir . --db_indir . --cpu 10 --nt 4
 ```
 The name of the BLAST output should look like "roseobacter.vs.bradyrhizobium.blast", if the query is roseobacteria.faa and the subject is bradyrhizobium.fas.
@@ -46,3 +46,29 @@ Run Psi_Phi module2
 ```perl ../scripts/scripts_for_Psi_Phi/batch.module2.pl```
 Be sure to make all input files in the same folder (or you could edit the original scripts)
 The output should be like "roseobacter_use_bradyrhizobium" where you can find the info for each pseudogene identified by PsiPhi
+
+
+
+
+# Step 3:
+ruby scripts/prepare_scripts/from_pseudo_to_bed.rb --indir data/ --outdir prepare --force
+
+
+# Step 1: generate tblastn results
+ruby scripts/process_scripts/check_pseudogene_aln.rb -i filtering/prepare/all_pseudo.txt -g data -p data --cpu 12 --outdir tblastn_result --force
+
+
+# Step 2:
+mkdir single_query
+
+ruby -F"\t" -alne 'next if $F[0]!~/\w/; a=$F[4].split(", "); n=a.size; n ==1 and puts a[0]' all_pseudo.txt | sort|uniq -c | awk '{print $2"\t"$1}'|sort -nk 2 > single_query/ori.list
+
+for i in 5 10 20 30; do awk -v i=$i '{if($2>=i){print $1}}' single_query/ori.list > single_query/$i.list; done
+
+
+# Step 3: run filtering analysis
+bash cmd.sh
+
+# Step 4: analyze results
+# The final result will be output in the file "filter_XX/all_pseudo.filtered.txt".
+# Important: for filter_XX, XX denotes a way of filtering: if a single orf has identified two many "pseudogenes", then we think it is more likely that this orf is wrongly annotated to be too long, much longer than its actual length. So we decide to use an arbitrary cutoff: if a orf identifies say >= 10 "pseudogenes", then we don't consider any of them as pseudogenes. Because the cutoff is set arbitrary, it is suggested to use different cutoffs (5, 10, 20, etc.) and to compare the results.
