@@ -99,4 +99,4 @@ ruby scripts/process_scripts/find_orf.rb --check_indir filtering/tblastn_result/
 ```
 for i in filtering/filter_*; do ruby scripts/process_scripts/get_final.rb -i filtering/prepare/all_pseudo.txt --include_list $i/orf_cov_80.list  --include_list $i/short_query.list --include_list $i/long_query.list > $i/all_pseudo.filtered.txt ; done
 ```
-The final result will be output in the file *filter_X/all_pseudo.filtered.txt*. You may want to make a comparison between this file and the pseudogenes originally identified by Psi-Phi (*filtering/prepare/all_pseudo.txt*).
+The final result will be output in the file *filter_X/all_pseudo.filtered.txt*. You may want to make a comparison between this file and the pseudogenes originally identified by Psi-Phi (*filtering/prepare/all_pseudo.txt*). In this example dataset, there are 84 and 364 pseudogenes in these two files, respectively. So it is apparent that applying filtering greatly reduces the no. of pseudogenes in the analyzed genomes.
