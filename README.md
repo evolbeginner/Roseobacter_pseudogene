@@ -75,7 +75,9 @@ Note that pseudogenes that overlap with at least 1 bp will be merged into a "lar
 
 
 # Step 4: Generate tblastn results
+```
 ruby scripts/process_scripts/check_pseudogene_aln.rb -i filtering/prepare/all_pseudo.txt -g data -p data --cpu 12 --outdir filtering/tblastn_result --force
+```
 
 
 # Step 5: Further filtering
