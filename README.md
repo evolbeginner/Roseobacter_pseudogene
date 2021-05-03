@@ -19,9 +19,9 @@ Make sure that the installation of these packages is successfull.
 ruby scripts/checkRubyPackages.rb
 ```
 
-3. Make sure that blast executables (https://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/) are installed.
+2. Make sure that blast executables (https://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/) are installed.
 
-4. **[Optional]** If you want to do filtering (i.e., steps 3-6), make sure that bedtools (https://bedtools.readthedocs.io/en/latest/) is successfully installed and its path is added to the environment variable *PATH*. Otherwise, if you only want to perform the original Psi-Phi, this is not necessary.
+3. **[Optional]** If you want to do filtering (i.e., steps 3-6), make sure that bedtools (https://bedtools.readthedocs.io/en/latest/) is successfully installed and its path is added to the environment variable *PATH*. Otherwise, if you only want to perform the original Psi-Phi, this is not necessary.
 
 
 # Step 0: files
