@@ -41,7 +41,7 @@ for i in data/*fas; do b=`basename $i`; c=${b%.fas}; makeblastdb -in $i -dbtype 
 Enter the folder *data* and run tblastn in batch.
 ```
 cd data
-ruby scripts/do_blast_in_batch.rb --seq_indir . --db_indir . --cpu 10 --nt 4
+ruby scripts/do_blast_in_batch.rb --seq_indir . --db_indir . --cpu 10
 ```
 The name of the BLAST output should look like "roseobacter.vs.bradyrhizobium.blast", if the query is roseobacteria.faa and the subject is bradyrhizobium.fas.
 
@@ -62,7 +62,7 @@ perl ../scripts/scripts_for_Psi_Phi/batch.module2.pl
 ruby ../scripts/scripts_for_Psi_Phi/module2.in_parallel.rb
 ```
 
-Be sure to make all input files in the same folder (or you could edit the original scripts). The output should be like "roseobacter_use_bradyrhizobium" where you can find the info for each pseudogene identified by PsiPhi
+Be sure to make all input files in the same folder (or you could edit the original scripts). The output should be like "pseudo_XXX" where you can find the info for each pseudogene identified by PsiPhi
 
 
 # Step 3: Summarize the result of Psi-Phi
